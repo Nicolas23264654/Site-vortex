@@ -78,16 +78,34 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ── Contact form ──
+  // ── Contact form → WhatsApp ──
   const form = document.getElementById('contactForm');
   if (form) {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
+
+      const campos = form.querySelectorAll('input, select, textarea');
+      const nome     = campos[0].value;
+      const email    = campos[1].value;
+      const empresa  = campos[2].value;
+      const tipo     = campos[3].value;
+      const mensagem = campos[4].value;
+
+      const texto = `Olá, vim pelo site da Vortex! 👋
+
+*Nome:* ${nome}
+*E-mail:* ${email}
+*Empresa:* ${empresa || 'Não informado'}
+*Serviço:* ${tipo || 'Não informado'}
+*Mensagem:* ${mensagem}`;
+
+      const url = `https://wa.me/5516996379392?text=${encodeURIComponent(texto)}`;
+      window.open(url, '_blank');
+
       const btn = form.querySelector('button[type="submit"]');
       const original = btn.innerHTML;
-
-      btn.innerHTML = '<i data-lucide="check" width="16" height="16"></i> Mensagem enviada!';
-      btn.style.background = '#34C759';
+      btn.innerHTML = '<i data-lucide="check" width="16" height="16"></i> Redirecionando...';
+      btn.style.background = '#25D366';
       lucide.createIcons();
 
       setTimeout(() => {
@@ -95,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.style.background = '';
         lucide.createIcons();
         form.reset();
-      }, 3500);
+      }, 3000);
     });
   }
 
